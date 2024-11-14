@@ -13,15 +13,16 @@ buffer:
       enabled: true
       count: 1000
       byte_size: 33554432 # 32MiB
-      period: "5s"
+      period: "3s"
 
 
 output:
   kafka_franz:
     seed_brokers:
       - ${REDPANDA_BROKERS}
-    topic: "${REDPANDA_TOPIC}"
+    topic: ${REDPANDA_TOPIC}
     compression: none
+
 
 logger:
   level: DEBUG

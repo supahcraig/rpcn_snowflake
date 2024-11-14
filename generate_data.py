@@ -40,9 +40,6 @@ def generate_payload():
                }
 
     response = requests.post(url, json.dumps(payload) + '\n')
-    print(response)
-
-
 
 
 if __name__ == '__main__':

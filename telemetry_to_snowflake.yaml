@@ -2,25 +2,26 @@ input:
   kafka_franz:
     seed_brokers:
       - ${REDPANDA_BROKERS}
-    topics: ["${REDPANDA_TOPIC"]
+    topics: [ ${REDPANDA_TOPIC} ]
     consumer_group: "snowpipe_streaming"
 
 
 output:
   snowflake_streaming:
     account: "${SNOWFLAKE_ACCOUNT}"
-    user: "INGEST"
-    role: "INGEST"
-    database: "INGEST"
-    schema: "INGEST"
-    table: "lift_tickets_py_rpcn"
-    private_key_file: "./rsa_key.p8"
+    user: "rpcn"
+    role: "rpcn"
+    database: "rpcn"
+    schema: "rpcn"
+    table: "vehicle_telemetry"
+    private_key_file: "./snowflake_private_key.p8"
     max_in_flight: 16
     mapping: |
       root = this
-      root.expiration_time = this.expiration_time.ts_strptime("%Y-%m-%d")
+      root.expiration_date = this.expiration_date.ts_strptime("%Y-%m-%d")
     batching:
       count: 1000
+      period: "5s"
       
 
 logger:
