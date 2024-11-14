@@ -9,12 +9,12 @@ input:
 output:
   snowflake_streaming:
     account: "${SNOWFLAKE_ACCOUNT}"
-    user: "rpcn"
-    role: "rpcn"
-    database: "rpcn"
-    schema: "rpcn"
-    table: "vehicle_telemetry"
-    private_key_file: "./snowflake_private_key.p8"
+    user: "${SNOWFLAKE_USER}"
+    role: "${SNOWFLAKE_ROLE}"
+    database: "${SNOWFLAKE_DATABASE}"
+    schema: "${SNOWFLAKE_SCHEMA}"
+    table: "${SNOWFLAKE_TABLE}"
+    private_key_file: "${SNOWFLAKE_PRIVATE_KEY_FILE}"
     max_in_flight: 16
     mapping: |
       root = this
