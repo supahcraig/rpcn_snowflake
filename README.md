@@ -1,22 +1,11 @@
-# rpcn_snowflake
+# Streaming to Snowflake using Redpanda Connect & `snowflake_streaming` output
 Streaming sample data via http endpoint through Redpanda and into Snowflake using Redpanda Connect
 
-
-TODO:
-
-redpanda docker compose
-
-fake data gen to http
-
-rpcn http server input to RP
-
-
-rpcn RP to Snowflake
 
 
 ## Requirements
 
-You'll need a Snoflake account (the basic trial account will work perfectly).  You'll also need Python 3.11 or greater, as well as redpanda-connect 4.39.0 or greater.  Lastly you'll optionally need to be able to deploy a Docker container to deploy Redpanda if you don't have access to Redpanda cloud or similar.
+You'll need a Snowflake account (the basic trial account will work perfectly).  You'll also need Python 3.11 or greater, as well as redpanda-connect 4.39.0 or greater.  Lastly you'll optionally need to be able to deploy a Docker container to deploy Redpanda if you don't have access to Redpanda cloud or similar.
 
 
 ## Database setup
@@ -149,3 +138,13 @@ You should immediately see results in 2 different forms:
 
 * In the Redpanda console (`http://localhost:8080`) you will see messages in the `vehicle_telemetry` topic
 * In Snowflake, querying the `vehicle_telemetry` table will show those same messages, more or less in real time.
+
+---
+
+# Lab Exercises
+
+* test schema evolution
+  * add a field to the data generator payload
+  * update the schema evolution setting in the rpcn yaml / restart pipeline
+  * observe new field in Snowflake
+* 

@@ -37,6 +37,7 @@ def generate_payload():
                'phone': fake.none_or(fake.phone_number()),
                'email': fake.none_or(fake.email()),
                'emergency_contact': fake.none_or({'name': fake.name(), 'phone': fake.phone_number()}),
+               #'purachased_through': fake.company(),
                }
 
     response = requests.post(url, json.dumps(payload) + '\n')

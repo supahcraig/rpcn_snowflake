@@ -11,10 +11,15 @@ output:
     account: "${SNOWFLAKE_ACCOUNT}"
     user: "${SNOWFLAKE_USER}"
     role: "${SNOWFLAKE_ROLE}"
+
     database: "${SNOWFLAKE_DATABASE}"
     schema: "${SNOWFLAKE_SCHEMA}"
     table: "${SNOWFLAKE_TABLE}"
     private_key_file: "${SNOWFLAKE_PRIVATE_KEY_FILE}"
+
+    schema_evolution:
+      enabled: false
+
     max_in_flight: 16
     mapping: |
       root = this
