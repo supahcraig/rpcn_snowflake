@@ -1,0 +1,30 @@
+input:
+  http_server:
+    address: ":8888"
+    path: /telemetry
+    allowed_verbs: [ GET, POST ]
+
+buffer:
+  memory:
+    # Max inflight data before applying backpressure
+    limit: 524288000 # 50MiB
+    # Batching policy, influences how large the generated files sent to Snowflake are
+    batch_policy:
+      enabled: true
+      count: 1000
+      byte_size: 33554432 # 32MiB
+      period: "5s"
+
+
+output:
+  kafka_franz:
+    seed_brokers:
+      - ${REDPANDA_BROKERS}
+    topic: "${REDPANDA_TOPIC}"
+    compression: none
+
+logger:
+  level: DEBUG
+  format: logfmt
+  add_timestamp: true
+  timestamp_name: ts
