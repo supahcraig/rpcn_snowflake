@@ -83,10 +83,11 @@ TODO:  the buffer may not be necessary here, but could probably replace with bat
 ## Redpanda Connect:  Redpanda ==> Snowflake
 
 TODO:  will need to investigate batching here
+TODO:  parameterize the Snowflake stuff
 
 In a different terminal window, fire up this RPCN pipeline. 
 
 ```bash
-rpk connect run -e .env snowpipe_streaming.yanml
+rpk connect run -e .env telemetry_to_snowflake.yanml
 ```
 
