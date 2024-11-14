@@ -143,8 +143,13 @@ You should immediately see results in 2 different forms:
 
 # Lab Exercises
 
-* test schema evolution
+This is me just thinking out loud...
+
+* Demonstrate schema evolution
   * add a field to the data generator payload
   * update the schema evolution setting in the rpcn yaml / restart pipeline
   * observe new field in Snowflake
+* Use bloblang to filter out and/or modify the payload
+* Look for outlier values and divert to a different topic/table
+* Apply windowing to look for a certain number of events in a window and handle them
 * 
