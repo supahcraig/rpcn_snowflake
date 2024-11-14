@@ -61,7 +61,7 @@ You will need a Redpanda cluster (a single node cluster via Docker is fine, but 
 Once you have your Redpanda cluster up and running, you'll want to add the broker addresses to your `.env` file.
 
 ```bash
-echo "REDPANDA_BROKER_ADDRESSES=broker.1:9092,broker.2:9092,broker.3:9092" >> .env
+echo "REDPANDA_BROKER_ADDRESSES=[ broker.1:9092, broker.2:9092, broker.3:9092 ]" >> .env
 echo "REDPANDA_TOPIC=vehicle_telemetry" >> .env
 ```
 
