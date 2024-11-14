@@ -65,7 +65,7 @@ echo "REDPANDA_BROKER_ADDRESSES=[ broker.1:9092, broker.2:9092, broker.3:9092 ]"
 echo "REDPANDA_TOPIC=vehicle_telemetry" >> .env
 ```
 
-## Redpanda Connect HTTP Server ==> Redpanda 
+## Redpanda Connect:  HTTP Server ==> Redpanda 
 
 We will use Redpanda Connect's `http_server` input as a way to capture the data we will generate and publish it to a topic in our Redpanda cluster.   
 
@@ -77,4 +77,16 @@ The endpoint is configurable in the `http_ingest.yaml` config file, but ours wil
 rpk connect run -e .env http_ingest.yanml
 ```
 
+TODO:  the buffer may not be necessary here, but could probably replace with batching at the kafka producer
+
+
+## Redpanda Connect:  Redpanda ==> Snowflake
+
+TODO:  will need to investigate batching here
+
+In a different terminal window, fire up this RPCN pipeline. 
+
+```bash
+rpk connect run -e .env snowpipe_streaming.yanml
+```
 
