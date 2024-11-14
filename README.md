@@ -39,19 +39,18 @@ Run the genrerated `ALTER USER` statment in Snowflake to attach the public key t
 ## Set up your .env
 
 
-From your local working directory, create a file called `.env`
-
-```
-SNOWFLAKE_ACCOUNT=<Snowflake Account Here>
-SNOWFLAKE_USER=rpcn
-PRIVATE_KEY_FILE=/path/to/your/private/key/file.p8
-```
-
-Your Snowflake Account can be found within Snowflake, perhaps most easily by running this query:
+From your local working directory, you'll find a file called `.env`, but we need to add one additional item for your Snowflake account.  It can be found within Snowflake, perhaps most easily by running this query:
 
 ```sql
 select current_organization_name() || '-' || current_account_name();
 ```
+
+Then inject it into your `.env` file:
+
+```bash
+echo "SNOWFLAKE_ACCOUNT=<your Snowflake account" >> .env
+```
+
 
 ---
 
@@ -68,13 +67,10 @@ https://docs.redpanda.com/current/get-started/quick-start/
 
 ### Configure cluster & environment variables
 
-Once you have your Redpanda cluster up and running, you'll want to add the broker addresses to your `.env` file.
+Once you have your Redpanda cluster up and running, you'll want to add the broker addresses to your `.env` file.  The `.env` is already configured for the Redpanda Quickstart Docker-hosted 3-node cluster.   If you have your own, you'll need the edit `.env` accordingly.
 
-```bash
-echo "REDPANDA_BROKER_ADDRESSES=[ broker.1:9092, broker.2:9092, broker.3:9092 ]" >> .env
-```
 
-Assuming you have your rpk profile set up, use `rpk` to create the topic with 10 partitions and 1 hour retention.
+Assuming you have your rpk profile set up and pointed at your cluster, use `rpk` to create the topic with 10 partitions and 1 hour retention.
 
 ```bash
 rpk topic create vehicle_telemetry -p 10 -c retention.ms=3600000
