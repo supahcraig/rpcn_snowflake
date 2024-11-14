@@ -136,3 +136,16 @@ The `snowflake_streaming` output is used to stream data into a snowflake table. 
 
 Handling dates is always tricky when pushing data to a database, and this is no exception.   The processor requires date/time/timestamp data to be in either unixtime or RFC3339 format.  Within Redpanda Connect, bloblang provides several methods for parsing such data, including `ts_parse`, `ts_strptime`, and `ts_strftime`.  Our input data has 2 date-type fields, one of which is already unixtime so no special handling is needed.   However, the `expiration_date` field is formatted as `YYYY-MM-DD` so we need to turn that into an acceptable format.  The `mapping` section shows this transformation in action.
 
+
+## Generate some data
+
+In yet another window, fire up the data generator.   It uses `Faker` and `optional-faker` to generate some randomized payloads and uses `requests` to send them to the http endpoint created by the `http_ingest` Redpanda Connect pipeline.  You can specify the number of messages to generate by supplying it on the command line.
+
+```bash
+python data_generator.py 10000
+```
+
+You should immediately see results in 2 different forms:
+
+* In the Redpanda console (`http://localhost:8080`) you will see messages in the `vehicle_telemetry` topic
+* In Snowflake, querying the `vehicle_telemetry` table will show those same messages, more or less in real time.
