@@ -53,10 +53,18 @@ Your Snowflake Account can be found within Snowflake, perhaps most easily by run
 select current_organization_name() || '-' || current_account_name();
 ```
 
+---
+
 ## Redpanda Setup
 
+
+### Create Redpanda Cluster
 You will need a Redpanda cluster (a single node cluster via Docker is fine, but BYOC or Serverless work work just as well)
 
+_TODO_
+
+
+### Configure cluser & environment variables
 
 Once you have your Redpanda cluster up and running, you'll want to add the broker addresses to your `.env` file.
 
@@ -64,6 +72,14 @@ Once you have your Redpanda cluster up and running, you'll want to add the broke
 echo "REDPANDA_BROKER_ADDRESSES=[ broker.1:9092, broker.2:9092, broker.3:9092 ]" >> .env
 echo "REDPANDA_TOPIC=vehicle_telemetry" >> .env
 ```
+
+Assuming you have your rpk profile set up, use `rpk` to create the topic.
+
+```bash
+rpk topic create vehicle_telemetry -p 10
+```
+
+---
 
 ## Redpanda Connect:  HTTP Server ==> Redpanda 
 
@@ -79,6 +95,7 @@ rpk connect run -e .env http_ingest.yanml
 
 TODO:  the buffer may not be necessary here, but could probably replace with batching at the kafka producer
 
+---
 
 ## Redpanda Connect:  Redpanda ==> Snowflake
 
