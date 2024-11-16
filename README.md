@@ -7,9 +7,10 @@ Streaming sample data via http endpoint through Redpanda and into Snowflake usin
 
 You'll need a Snowflake account (the basic trial account will work perfectly).  You'll also need Python 3.11 or greater, as well as redpanda-connect 4.39.0 or greater.  Lastly you'll optionally need to be able to deploy a Docker container to deploy Redpanda if you don't have access to Redpanda cloud or similar.
 
+The python data generator uses Faker, requests, and several other modules defined in `requirments.txt`, which you will need to pip install into the virtual environment of your choice.
+
 
 ## Database setup
-
 
 ### Keypair authentication setup
 
