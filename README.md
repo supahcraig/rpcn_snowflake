@@ -15,6 +15,8 @@ You'll need a Snowflake account (the basic trial account will work perfectly).  
 
 You'll need to create a keypair to allow Redpanda Connect to authenticate with Snowflake.  This block will create those keys and produce an `ALTER USER` statement which will attach your public key your Snowflake user.
 
+Run this block in a terminal window on your local machine.
+
 ```bash
 openssl genrsa 4096 | openssl pkcs8 -topk8 -inform PEM -out snowflake_private_key.p8 -nocrypt
 openssl rsa -in snowflake_private_key.p8 -pubout -out snowflake_public_key.pub
@@ -22,11 +24,10 @@ PUBK=`cat ./snowflake_public_key.pub | grep -v KEY- | tr -d '\012'`
 echo "ALTER USER rpcn SET RSA_PUBLIC_KEY='$PUBK';"
 ```
 
-Run the genrerated `ALTER USER` statment in Snowflake to attach the public key to your `rpcn` user.
+Run the generated `ALTER USER` statement in Snowflake to attach the public key to your `rpcn` user in Snowflake.
 
 
 ## Set up your .env
-
 
 From your local working directory, you'll find a file called `.env`, but we need to add one additional item for your Snowflake account.  It can be found within Snowflake, perhaps most easily by running this query:
 
@@ -52,14 +53,20 @@ You will need a Redpanda cluster (a single node cluster via Docker is fine, but 
 Follow the Redpanda self-hosted Quickstart guide to spin up a 1 (or 3) broker cluster using Docker Compose.
 https://docs.redpanda.com/current/get-started/quick-start/
 
+(Later steps assume a 3-node Docker deployment, if your deployment is different you may have to make changes around broker addresses and TLS/SASL users as necessary)
 
 
 ### Configure cluster & environment variables
 
-Once you have your Redpanda cluster up and running, you'll want to add the broker addresses to your `.env` file.  The `.env` is already configured for the Redpanda Quickstart Docker-hosted 3-node cluster.   If you have your own, you'll need the edit `.env` accordingly.
+It is not required, but the following commands assume you have set up an rpk profile pointed to your Redpanda cluster.
 
+Once you have your Redpanda cluster up and running, you'll want to add the seed broker addresses to your `.env` file.  The `.env` is already configured for the Redpanda Quickstart Docker-hosted 3-node cluster.   If you have your own, you'll need the edit `.env` accordingly.  Your seed broker addresses can be found via `rpk cluster info`.
 
-Assuming you have your rpk profile set up and pointed at your cluster, use `rpk` to create the topic with 10 partitions and 1 hour retention.
+```bash
+rpk cluster info
+```
+
+Next, use `rpk` to create the topic with 10 partitions and 1 hour retention policy.
 
 ```bash
 rpk topic create vehicle_telemetry -p 10 -c retention.ms=3600000
@@ -126,7 +133,7 @@ When the `telemetry_to_snowflake` pipeline fires up, it begins by using the `kaf
 
 #### Output: snowflake_streaming
 
-The `snowflake_streaming` output is used to stream data into a snowflake table.   In the times of yore, you could stream data into Snowflake using Snowpipe, but it required setting up Snowflake stages that would hold the data for a time before making it available for querying.  Recently, Snowflake has provided a mechanism to stream data "directly" to a table to be immediately available for querying.   This processor uses that functionality.  We do still enable some batching here, by specifying to wait for either 1000 messages or 5 seconds, _whichever comes first,_ although it is not strictly-speaking necessary.  The Snowflake specifics are all provided via .env file.
+The `snowflake_streaming` output is used to stream data into a snowflake table.   In the times of yore, you could stream data into Snowflake using Snowpipe, but it required setting up Snowflake Stages and Pipes that would define loading instructions and hold the data for a time before making it available for querying.  Recently, Snowflake has provided a mechanism to stream data "directly" to a table to be immediately available for querying.   This processor uses that functionality.  We do still enable some batching here, by specifying to wait for either 1000 messages or 5 seconds, _whichever comes first,_ although it is not strictly-speaking necessary.  The Snowflake specifics are all provided via .env file.
 
 Handling dates is always tricky when pushing data to a database, and this is no exception.   The processor requires date/time/timestamp data to be in either unixtime or RFC3339 format.  Within Redpanda Connect, bloblang provides several methods for parsing such data, including `ts_parse`, `ts_strptime`, and `ts_strftime`.  Our input data has 2 date-type fields, one of which is already unixtime so no special handling is needed.   However, the `expiration_date` field is formatted as `YYYY-MM-DD` so we need to turn that into an acceptable format.  The `mapping` section shows this transformation in action.
 
@@ -157,4 +164,5 @@ This is me just thinking out loud...
 * Use bloblang to filter out and/or modify the payload
 * Look for outlier values and divert to a different topic/table
 * Apply windowing to look for a certain number of events in a window and handle them
-* 
+
+_Probably don't need to make this a lab on how to use bloblang, but depending on the demo purposes it might be worthwhile_
