@@ -4,9 +4,10 @@ input:
     path: /telemetry
     allowed_verbs: [ GET, POST ]
 
+
 buffer:
   memory:
-    # Max inflight data before applying backpressure
+    # Max in-flight data before applying backpressure
     limit: 524288000 # 50MiB
     # Batching policy, influences how large the generated files sent to Snowflake are
     batch_policy:

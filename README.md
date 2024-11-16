@@ -89,14 +89,16 @@ When the `http_ingest` pipeline fires up, the input creates an http server that 
 
 #### The buffer
 
-_TODO:  is the buffer even necessary here?  Or is batching at the output sufficient?_
-
-
 The buffer allows us to receive & acknowledge messages without waiting for the output to complete first.   In other words, the caller will receive the 200 response almost immediately, acknowledging that the pipeline has received the message, thereby allowing for the input section to handle the next message.  These messages are stored in an in-memory buffer allocated at 50MB, after which the pipeline will apply backpressure on the input, preventing it from accepting new messages.  The buffer itself is configured to hold up to 1000 messages, 32MB worth of messages, and hold them for up to 3 seconds, _whichever comes first_.
 
 This is not without risk, however.  Any messages stored in the in-memory buffer are volatile, meaning that if the pipeline process were to shut down, messages in the buffer would be lost.  
 
+_NOTE:  the buffer is only necessary here because we want a high throughput for demo purposes.  Batching at the output instead of a buffer would be a best practice if there are lots of producers and you wanted to maximize throughput at the expense of latency._
+
+
 #### Output: kafka_franz
+
+_TODO:  change to the new `redpanda` output processor._
 
 Once the buffer releases a batch of messages, the `kafka_franz` output will take the messages and publish them to the topic defined in the .env file, on the Repdanda cluster at the `seed_broker` address.
 
@@ -117,6 +119,9 @@ rpk connect run -e .env telemetry_to_snowflake.yanml
 ### How does it work?
 
 #### Input:  kafka_franz
+
+_TODO: use the new `redpanda` processor_
+
 When the `telemetry_to_snowflake` pipeline fires up, it begins by using the `kafka_franz` input to consume messages from a Redpanda cluster on one or more topics, using the `snowpipe_streaming` consumer group.
 
 #### Output: snowflake_streaming
