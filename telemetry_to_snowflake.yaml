@@ -1,4 +1,3 @@
-input:
   kafka_franz:
     seed_brokers:
       - ${REDPANDA_BROKERS}
