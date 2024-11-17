@@ -12,7 +12,6 @@ input:
 #    topics: [ ${REDPANDA_TOPIC} ]
 #    consumer_group: "snowpipe_streaming"
 
-
 output:
   snowflake_streaming:
     account: "${SNOWFLAKE_ACCOUNT}"
