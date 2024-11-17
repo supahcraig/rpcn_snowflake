@@ -1,6 +1,6 @@
 input:
   redpanda:
-    seed_brokers: [${REDPANDA_BROKERS} ]
+    seed_brokers: [ ${REDPANDA_BROKERS} ]
     regexp_topics: false
     consumer_group: "snowpipe_streaming"
     auto_replay_nacks: false
