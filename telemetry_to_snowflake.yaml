@@ -1,9 +1,16 @@
 input:
-  kafka_franz:
-    seed_brokers:
-      - ${REDPANDA_BROKERS}
-    topics: [ ${REDPANDA_TOPIC} ]
+  redpanda:
+    seed_brokers: [${REDPANDA_BROKERS} ]
+    regexp_topics: false
     consumer_group: "snowpipe_streaming"
+    auto_replay_nacks: false
+
+#input:
+#  kafka_franz:
+#    seed_brokers:
+#      - ${REDPANDA_BROKERS}
+#    topics: [ ${REDPANDA_TOPIC} ]
+#    consumer_group: "snowpipe_streaming"
 
 
 output:
