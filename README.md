@@ -106,9 +106,7 @@ _NOTE:  the buffer is only necessary here because we want a high throughput for 
 
 #### Output: kafka_franz
 
-_TODO:  change to the new `redpanda` output processor._
-
-Once the buffer releases a batch of messages, the `kafka_franz` output will take the messages and publish them to the topic defined in the .env file, on the Repdanda cluster at the `seed_broker` address.
+Once the buffer releases a batch of messages, the `redpanda` output will take the messages and publish them to the topic defined in the .env file, on the Repdanda cluster at the `seed_broker` address.
 
 
 ---
@@ -116,7 +114,6 @@ Once the buffer releases a batch of messages, the `kafka_franz` output will take
 ## Redpanda Connect:  Redpanda ➡️ Snowflake
 
 TODO:  will need to investigate batching here
-TODO:  parameterize the Snowflake stuff
 
 In a different terminal window, fire up this RPCN pipeline. 
 
@@ -126,11 +123,9 @@ rpk connect run -e .env telemetry_to_snowflake.yanml
 
 ### How does it work?
 
-#### Input:  kafka_franz
+#### Input:  redpanda
 
-_TODO: use the new `redpanda` processor_
-
-When the `telemetry_to_snowflake` pipeline fires up, it begins by using the `kafka_franz` input to consume messages from a Redpanda cluster on one or more topics, using the `snowpipe_streaming` consumer group.
+When the `telemetry_to_snowflake` pipeline fires up, it begins by using the `redpanda` input to consume messages from a Redpanda cluster on one or more topics, using the `snowpipe_streaming` consumer group.
 
 #### Output: snowflake_streaming
 
