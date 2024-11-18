@@ -104,7 +104,7 @@ This is not without risk, however.  Any messages stored in the in-memory buffer 
 _NOTE:  the buffer is only necessary here because we want a high throughput for demo purposes.  Batching at the output instead of a buffer would be a best practice if there are lots of producers and you wanted to maximize throughput at the expense of latency._
 
 
-#### Output: kafka_franz
+#### Output: redpanda
 
 Once the buffer releases a batch of messages, the `redpanda` output will take the messages and publish them to the topic defined in the .env file, on the Repdanda cluster at the `seed_broker` address.
 

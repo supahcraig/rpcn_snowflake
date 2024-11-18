@@ -17,13 +17,6 @@ buffer:
       period: "3s"
 
 
-#output:
-#  kafka_franz:
-#    seed_brokers:
-#      - ${REDPANDA_BROKERS}
-#    topic: ${REDPANDA_TOPIC}
-#    compression: none
-
 output:
   redpanda:
     seed_brokers: [ ${REDPANDA_BROKERS} ]
