@@ -1,5 +1,5 @@
 input:
-  redpanda:
+  kafka_franz:
     seed_brokers: [ ${REDPANDA_BROKERS} ]
     topics: [ "vehicle_telemetry" ]
     regexp_topics: false
@@ -23,7 +23,7 @@ output:
 
     max_in_flight: 16
     batching:
-      count: 1000
+      count: 100000
       period: "5s"
       
 
