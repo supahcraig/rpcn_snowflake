@@ -19,14 +19,12 @@ grant role rpcn to user rpcn;
 -- create table for streaming
 USE ROLE rpcn;
 CREATE OR REPLACE TABLE vehicle_telemetry
-(TXID varchar(255),
- RFID varchar(255),
- RESORT varchar(255),
- PURCHASE_TIME datetime,
- EXPIRATION_DATE date,
- DAYS number,
- NAME varchar(255),
- ADDRESS variant,
- PHONE varchar(255),
- EMAIL varchar(255),
- EMERGENCY_CONTACT variant);
+ (MSGID varchar(255),
+  VEHICLE_ID varchar(255),
+  LATITUDE float,
+  LONGITUDE float,
+  SPEED number,
+  AIRBAG number,
+  low_tire_pressure_alert number,
+  tail_light_alert number,
+  event_datetime datetime);
