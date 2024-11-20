@@ -1,7 +1,7 @@
 input:
   redpanda:
     seed_brokers: [ ${REDPANDA_BROKERS} ]
-    topics: [ ${REDPANDA_TOPIC} ]
+    topics: [ "vehicle_telemetry" ]
     regexp_topics: false
     consumer_group: "snowpipe_streaming"
     auto_replay_nacks: false
@@ -22,9 +22,6 @@ output:
       enabled: false
 
     max_in_flight: 16
-    #mapping: |
-    #  root = this
-    #   root.event_datetime = this.expiration_date.ts_strptime("%Y-%m-%d")
     batching:
       count: 1000
       period: "5s"

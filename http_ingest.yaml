@@ -18,11 +18,26 @@ buffer:
 
 
 output:
-  redpanda:
-    seed_brokers: [ ${REDPANDA_BROKERS} ]
-    topic: ${REDPANDA_TOPIC}
-    compression: none
+  switch:
+      cases:
+        - check: this.airbag > 95 || this.low_tire_pressure_alert > 95 || this.tail_light_alert > 95
+          output:
+            redpanda:
+              seed_brokers: [ ${REDPANDA_BROKERS} ]
+              topic: vehicle_alert
+          continue: true
 
+        - check: this.speed > 85
+          output:
+            redpanda:
+              seed_brokers: [ ${REDPANDA_BROKERS} ]
+              topic: vehicle_high_risk_behavior
+          continue: true
+
+        - output:
+            redpanda:
+              seed_brokers: [ ${REDPANDA_BROKERS} ]
+              topic: vehicle_telemetry
 
 logger:
   level: DEBUG
