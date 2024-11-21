@@ -27,4 +27,6 @@ CREATE OR REPLACE TABLE vehicle_telemetry
   AIRBAG number,
   low_tire_pressure_alert number,
   tail_light_alert number,
-  event_datetime datetime);
+  VEHICLE_ALERTS VARIANT,
+  HIGH_RISK_BEHAVIOR VARIANT
+  );

@@ -5,6 +5,30 @@ input:
     allowed_verbs: [ GET, POST ]
 
 
+pipeline:
+  threads: 4
+  processors:
+    - mapping: |
+        root = this
+        root.vehicle_alerts = []
+        root.high_risk_behavior = []
+
+        if this.speed > 85 {
+          root.high_risk_behavior = root.high_risk_behavior.append("SPEED")
+        } 
+
+        if this.airbag > 95 {
+          root.vehicle_alerts = root.vehicle_alerts.append("AIRBAG")
+        } 
+
+        if this.low_tire_pressure_alert < 25 {
+          root.vehicle_alerts = root.vehicle_alerts.append("LOW TIRE PRESSURE")
+        } 
+
+        if this.tail_light_alert > 75 {
+          root.vehicle_alerts = root.vehicle_alerts.append("TAIL LIGHT OUT")
+        }
+
 buffer:
   memory:
     # Max in-flight data before applying backpressure
@@ -20,14 +44,14 @@ buffer:
 output:
   switch:
       cases:
-        - check: this.airbag > 95 || this.low_tire_pressure_alert > 95 || this.tail_light_alert > 95
+        - check: this.vehicle_alerts.length() > 0
           output:
             redpanda:
               seed_brokers: [ ${REDPANDA_BROKERS} ]
               topic: vehicle_alert
           continue: true
 
-        - check: this.speed > 85
+        - check: this.high_risk_behavior.length() > 0
           output:
             redpanda:
               seed_brokers: [ ${REDPANDA_BROKERS} ]
