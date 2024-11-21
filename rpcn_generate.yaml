@@ -12,6 +12,12 @@ input:
      root.tail_light_alert = random_int(seed:timestamp_unix_nano(), min:0, max:100)
    #  root.event_datetime = timestamp_unix()
 
+pipeline:
+  processors:
+    - log:
+        level: INFO
+        message: '${! content() }'
+
 output:
   label: ""
   http_client:
