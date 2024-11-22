@@ -13,7 +13,7 @@ pipeline:
         root.vehicle_alerts = []
         root.high_risk_behavior = []
         
-        root.event_datetime = timestamp_unix()
+        #root.event_datetime = timestamp_unix()
 
         if this.speed > 85 {
           root.high_risk_behavior = root.high_risk_behavior.append("SPEED")

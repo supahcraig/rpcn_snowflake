@@ -1,6 +1,6 @@
 input:
  generate:
-   interval: 0.01s
+   interval: 0.001s
    mapping: |
      root.msgid = uuid_v4()
      root.vehicle_id = nanoid(24)
