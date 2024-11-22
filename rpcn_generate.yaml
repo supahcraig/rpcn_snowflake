@@ -1,6 +1,6 @@
 input:
  generate:
-   interval: 0.001s
+   interval: 0.01s
    mapping: |
      root.msgid = uuid_v4()
      root.vehicle_id = nanoid(24)
@@ -10,7 +10,6 @@ input:
      root.airbag = random_int(seed:timestamp_unix_nano(), min:0, max:100)
      root.low_tire_pressure_alert = random_int(seed:timestamp_unix_nano(), min:0, max:100)
      root.tail_light_alert = random_int(seed:timestamp_unix_nano(), min:0, max:100)
-   #  root.event_datetime = timestamp_unix()
 
 pipeline:
   processors:
@@ -19,11 +18,9 @@ pipeline:
         message: '${! content() }'
 
 output:
-  label: ""
   http_client:
     url: "http://localhost:8888/telemetry"
     verb: POST
     headers: {}
-    rate_limit: "" # No default (optional)
     timeout: 5s
     max_in_flight: 64
