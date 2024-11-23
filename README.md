@@ -154,7 +154,14 @@ In yet another window, fire up the data generator.
 rpk connect run -e .env rpcn_generate.yaml
 ```
 
-You should see randomized json output streaming to stdout.  If you don't have the http ingest pipeline running already, you will see errors as it is trying to hit an endpoint that doesn't exist (yet).  Once http ingest is running the errors should go away.
+You should see randomized json output streaming to stdout.  If you don't have the http ingest pipeline running already, you will see errors as it is trying to hit an endpoint that doesn't exist (yet).  Once http ingest is running the errors should go away.  This will generate data for as long as the pipeline is alive.
+
+If you want to generate a set number of messages, you can specify it as a command line parameter:
+
+```bash
+rpk connect run  --set "input.generate.count=5" rpcn_generate.yaml
+```
+
 
 ### OPTIONAL:  use the python data generator instead 
 It uses `Faker` and `optional-faker` to generate some randomized payloads and uses `requests` to send them to the http endpoint created by the `http_ingest` Redpanda Connect pipeline.  You can specify the number of messages to generate by supplying it on the command line.
